@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Review System</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 5%;
+        }
+        h1 {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .list-group-item {
+            border: none;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .list-group-item:last-child {
+            border-bottom: none;
+        }
+        .alert-info {
+            background-color: #e9f7ff;
+            border-color: #b8e2ff;
+            color: #31708f;
+        }
+    </style>
+    <!-- Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body>
+    <div class="container" id="app">
+        <h1 class="text-center mb-4">Book Review System</h1>
+        <div v-if="message" class="alert alert-info">[[ message ]]</div>
+        <form @submit.prevent="addBook" class="mb-4">
+            <div class="form-row">
+                <div class="col-md-5">
+                    <input type="text" v-model="title" placeholder="Book Title" required class="form-control mb-2">
+                </div>
+                <div class="col-md-5">
+                    <input type="text" v-model="author" placeholder="Author" required class="form-control mb-2">
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" value="Add" class="btn btn-primary btn-block mb-2">
+                </div>
+            </div>
+            <div class="form-group">
+                <textarea v-model="review" placeholder="Write your review here..." class="form-control"></textarea>
+            </div>
+        </form>
+        <h2 class="mt-5">Books & Reviews:</h2>
+        <ul class="list-group mt-3">
+            <li v-for="book in books" class="list-group-item"><strong>[[ book.title ]]</strong> by [[ book.author ]] <br> <small class="text-muted">[[ book.review || 'No review yet' ]]</small></li>
+        </ul>
+    </div>
+
+    <!-- Vue.js Script -->
+    <script>
+        new Vue({
+            el: '#app',
+            delimiters: ['[[', ']]'],
+            data: {
+                title: '',
+                author: '',
+                review: '',
+                books: [],
+                message: null
+            },
+            methods: {
+                addBook() {
+                    if (this.title && this.author) {
+                        this.books.push({ title: this.title, author: this.author, review: this.review });
+                        this.title = '';
+                        this.author = '';
+                        this.review = '';
+                        this.message = 'Book added successfully!';
+                    } else {
+                        this.message = 'Title and Author are required!';
+                    }
+                }
+            }
+        });
+    </script>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
